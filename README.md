@@ -47,7 +47,3 @@ In the spirit of failing fast, consumers of the config service can apply type re
 ### Getting all overlayed values using `getLayers()`
 
 ### relative configuration objects using `getNamespace()`
-
-## Guides
-
-The [guides](guides) directory of this git repository contains a set of development guides to help you work within the MCS.
