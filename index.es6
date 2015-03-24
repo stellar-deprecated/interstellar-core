@@ -7,10 +7,7 @@ export { Config } from "./lib/config.es6";
 const { Module } = require('./lib/module');
 
 export const mod = new Module('mcs-core');
-mod.templates    = require.context("raw!./templates", true);
-mod.services     = require.context("./services",      true);
-mod.controllers  = require.context("./controllers",   true);
-mod.setupBlocks  = require.context("./setup-blocks",  true);
+mod.services     = require.context("./services", true);
 
 mod.define();
 
