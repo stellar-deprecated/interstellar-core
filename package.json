@@ -3,9 +3,6 @@
   "version": "0.0.1",
   "description": "The core modules provides the lowest level functionality within the modular client system.",
   "keywords": ["stellar", "mcs"],
-  "bin": {
-    "mcs": "./bin/mcs.js"
-  },
   "scripts": {
     "test": "gulp test"
   },
