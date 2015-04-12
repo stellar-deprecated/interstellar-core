@@ -58,7 +58,12 @@ export class AngularNamespacer {
   }
 
   _define(type, name, val) {
-    let fullName = `${this.amod.name}.${name}`;
+    let fullName;
+    if (type === 'directive') {
+      fullName = name;
+    } else {
+      fullName = `${this.amod.name}.${name}`;
+    }
     this.amod[type](fullName, val);
   }
 }

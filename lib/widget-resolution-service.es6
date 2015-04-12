@@ -10,8 +10,8 @@ class WidgetResolutionService {
   }
 
   resolve(type) {
-    var resolved = []
-    _.reduce(this.resolvers, function (result, resolver,index) {
+    var resolved = [];
+    _.reduce(this.resolvers, (result, resolver) => {
         var widget = resolver.resolve(type);
         if (!widget) {
             return;

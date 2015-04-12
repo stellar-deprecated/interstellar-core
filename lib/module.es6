@@ -1,8 +1,6 @@
-require('angular');
-
 let {AngularNamespacer} = require("./angular-namespacer");
-let { extname }              = require('path');
-let _                        = require("lodash");
+let { extname }         = require('path');
+let _                   = require("lodash");
 
 export class Module {
   constructor(name) {

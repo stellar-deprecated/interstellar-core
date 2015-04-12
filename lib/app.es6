@@ -5,7 +5,7 @@ let _                       = require("lodash");
 
 let { Module }              = require("./module");
 let Widget                  = require("./widget-directive");
-let WidgetResolutionService = require("./widget-service");
+let WidgetResolutionService = require("./widget-resolution-service");
 let {AngularNamespacer}     = require("./angular-namespacer");
 
 export class App extends Module {
