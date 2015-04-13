@@ -2,10 +2,7 @@ require('angular');
 require("angular-ui-router");
 
 let _                       = require("lodash");
-
 let { Module }              = require("./module");
-let Widget                  = require("./widget-directive");
-let WidgetResolutionService = require("./widget-resolution-service");
 let {AngularNamespacer}     = require("./angular-namespacer");
 
 export class App extends Module {
@@ -42,8 +39,6 @@ export class App extends Module {
 
     loadRoutes.$inject = ["$stateProvider", "$urlRouterProvider"];
     this.amod.config(loadRoutes);
-    this.amod.directive("widget", Widget);
-    this.amod.service("WidgetResolutionService", WidgetResolutionService);
 
     this._loadWidgetResolvers(this.amod);
   }
@@ -52,9 +47,9 @@ export class App extends Module {
     _.forEach(this.widgetResolvers, function (resolver) {
       let loadResolver = (resolver, WidgetResolutionService) => {
         WidgetResolutionService.addResolver(resolver);
-      }
+      };
 
-      loadResolver.$inject = [resolver, "WidgetResolutionService"];
+      loadResolver.$inject = [resolver, "mcs-core.WidgetResolutionService"];
       amod.run(loadResolver);
     });
   }

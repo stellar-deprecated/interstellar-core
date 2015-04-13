@@ -16,18 +16,6 @@ class Widget {
         var compiled = $compile(template)(scope);
 
         element.append(compiled);
-
-
-        //let [packageName, widgetName] = attrs.name.split('.');
-        //console.log(`${packageName}/package.json`);
-        ////let packageJson = require(`${packageName}/package.json`);
-        //let packageJson = require(packageName);
-        //console.log(packageJson);
-        //
-        ////let template = require('raw!./node_modules/');
-        //let compiled = $compile(template)(scope);
-        //
-        //element.append(compiled);
       }
     };
 
@@ -35,6 +23,8 @@ class Widget {
   }
 }
 
-Widget.$inject = ["$compile", "WidgetResolutionService"];
+Widget.$inject = ["$compile", "mcs-core.WidgetResolutionService"];
 
-module.exports = Widget;
+module.exports = function(mod) {
+  mod.directive("widget", Widget);
+};

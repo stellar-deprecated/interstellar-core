@@ -23,4 +23,3 @@ class ConfigProvider {
 module.exports = function(mod) {
   mod.provider("Config", ConfigProvider);
 };
-

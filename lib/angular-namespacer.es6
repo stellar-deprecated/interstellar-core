@@ -60,10 +60,16 @@ export class AngularNamespacer {
   _define(type, name, val) {
     let fullName;
     if (type === 'directive') {
-      fullName = name;
+      let camelCasedModule = AngularNamespacer._dashToCamelCased(this.amod.name);
+      let camelCasedName = name.charAt(0).toUpperCase() + name.slice(1);
+      fullName = `${camelCasedModule}${camelCasedName}`;
     } else {
       fullName = `${this.amod.name}.${name}`;
     }
     this.amod[type](fullName, val);
+  }
+
+  static _dashToCamelCased(text) {
+    return text.replace(/-([a-z])/g, function (g) { return g[1].toUpperCase(); });
   }
 }
