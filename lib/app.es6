@@ -32,13 +32,27 @@ export class App extends Module {
   define() {
     super();
 
-    let loadRoutes = (state, url) => {
-      url.otherwise("/");
-      this.routes(state);
+    let loadRoutes = ($stateProvider, $urlRouterProvider) => {
+      $urlRouterProvider.otherwise("/");
+      this.routes($stateProvider);
     };
 
     loadRoutes.$inject = ["$stateProvider", "$urlRouterProvider"];
+
+    let run = (Sessions, $state, $rootScope) => {
+      $rootScope.$on('$stateChangeStart', (event, toState, toParams, fromState, fromParams) => {
+        if (toState.requireSession && !Sessions.hasDefault()) {
+          event.preventDefault();
+          $state.transitionTo('index');
+          return;
+        }
+      })
+    };
+
+    run.$inject = ["mcs-stellard.Sessions", "$state", "$rootScope"];
+
     this.amod.config(loadRoutes);
+    this.amod.run(run);
 
     this._loadWidgetResolvers(this.amod);
   }
