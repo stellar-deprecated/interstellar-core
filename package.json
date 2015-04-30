@@ -13,6 +13,9 @@
     "url": "http://github.com/stellar/mcs-core.git"
   },
   "dependencies": {
+    "kelp": "git+https://github.com/stellar/kelp#master",
+    "kelp-theme-sdf": "git+https://github.com/stellar/kelp-theme-sdf#master",
+
     "6to5": "^1.14.17",
     "6to5-loader": "^0.2.3",
     "bower": "^1.3.12",
