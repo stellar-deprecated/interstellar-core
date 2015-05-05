@@ -29,7 +29,6 @@
     "css-loader": "^0.9.0",
     "del": "^1.1.1",
     "file-loader": "^0.8.1",
-    "gaze": "^0.6.4",
     "glob": "^4.3.1",
     "html-loader": "^0.2.3",
     "loader-utils": "^0.2.5",
