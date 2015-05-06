@@ -26,5 +26,5 @@ class WidgetResolutionService {
 }
 
 module.exports = function(mod) {
-  mod.provider("WidgetResolutionService", WidgetResolutionService);
+  //mod.provider("WidgetResolutionService", WidgetResolutionService);
 };

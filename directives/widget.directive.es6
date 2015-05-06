@@ -1,5 +1,5 @@
 class Widget {
-  constructor($compile, WidgetResolutionService) {
+  constructor($compile) {
     let directiveDefinitionObject = {
       restrict: "E",
       scope: {
@@ -10,7 +10,7 @@ class Widget {
         if (attrs.name) {
           templateName = attrs.name;
         } else if (attrs.type) {
-          templateName = WidgetResolutionService.resolve(attrs.type);
+          //templateName = WidgetResolutionService.resolve(attrs.type);
         }
         var template = "<"+templateName+"></"+templateName+">";
         var compiled = $compile(template)(scope);
@@ -23,7 +23,7 @@ class Widget {
   }
 }
 
-Widget.$inject = ["$compile", "mcs-core.WidgetResolutionService"];
+Widget.$inject = ["$compile"];
 
 module.exports = function(mod) {
   mod.directive("widget", Widget);
