@@ -25,7 +25,6 @@ export class App extends Module {
       if(typeof cb === 'function') {
         cb();
       }
-
     });
   }
 
@@ -39,21 +38,21 @@ export class App extends Module {
 
     loadRoutes.$inject = ["$stateProvider", "$urlRouterProvider"];
 
-    let run = (Sessions, $state, $rootScope) => {
+    let goToMainStateWithoutSession = (Sessions, $state, $rootScope) => {
       $rootScope.$on('$stateChangeStart', (event, toState, toParams, fromState, fromParams) => {
         if (toState.requireSession && !Sessions.hasDefault()) {
           event.preventDefault();
           $state.transitionTo('index');
-          return;
         }
       })
     };
 
-    run.$inject = ["mcs-stellard.Sessions", "$state", "$rootScope"];
+    goToMainStateWithoutSession.$inject = ["mcs-stellard.Sessions", "$state", "$rootScope"];
 
-    this.amod.config(loadRoutes);
-    this.amod.run(run);
+    this.config(loadRoutes);
+    this.run(goToMainStateWithoutSession);
 
+    this._loadFunctions();
     this._loadWidgetResolvers(this.amod);
   }
 

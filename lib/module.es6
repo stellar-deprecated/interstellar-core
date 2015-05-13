@@ -6,6 +6,8 @@ export class Module {
   constructor(name) {
     this.name = name;
     this.uses = [];
+    this.runFunctions = [];
+    this.configFunctions = [];
   }
 
   use(module) {
@@ -22,6 +24,23 @@ export class Module {
     this._loadAngularArtifacts(amodd, this.controllers);
     this._loadAngularArtifacts(amodd, this.directives);
     this._loadAngularArtifacts(amodd, this.filters);
+    this._loadFunctions();
+  }
+
+  config(func) {
+    this.configFunctions.push(func);
+  }
+
+  run(func) {
+    this.runFunctions.push(func);
+  }
+
+  _loadFunctions() {
+    _.forEach(this.configFunctions, func => this.amod.config(func));
+    _.forEach(this.runFunctions, func => this.amod.run(func));
+
+    this.configFunctions = [];
+    this.runFunctions = [];
   }
 
   _loadSetupBlocks(amod) {
@@ -65,7 +84,7 @@ export class Module {
     // of loaded modules.
     //
     // If we did not uniq the list, setup blocks, for example, would run
-    // multuiple times
+    // multiple times
 
     return _(ctx.keys())
       .map(k => [k, ctx(k)])
