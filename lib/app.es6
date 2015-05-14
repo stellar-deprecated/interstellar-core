@@ -29,7 +29,7 @@ export class App extends Module {
   }
 
   define() {
-    super();
+    super.define();
 
     let loadRoutes = ($stateProvider, $urlRouterProvider) => {
       $urlRouterProvider.otherwise("/");
