@@ -1,5 +1,3 @@
-require("6to5/polyfill");
-
 export {App}    from "./lib/app.es6";
 export {Module} from "./lib/module.es6";
 export {Config} from "./lib/config.es6";

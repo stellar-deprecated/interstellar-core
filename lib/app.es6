@@ -6,8 +6,9 @@ let { Module }              = require("./module");
 let {AngularNamespacer}     = require("./angular-namespacer");
 
 export class App extends Module {
-  constructor(name) {
+  constructor(name, config) {
     super(name);
+    this.configObject = config;
     this.routes = (state) => {};
     this.use('ui.router');
     this.widgetResolvers = [];
@@ -31,12 +32,20 @@ export class App extends Module {
   define() {
     super.define();
 
+    let loadConfig = (ConfigProvider) => {
+      ConfigProvider.addAppConfig(this.configObject);
+    };
+
+    loadConfig.$inject = ["mcs-core.ConfigProvider"];
+    this.config(loadConfig);
+
     let loadRoutes = ($stateProvider, $urlRouterProvider) => {
       $urlRouterProvider.otherwise("/");
       this.routes($stateProvider);
     };
 
     loadRoutes.$inject = ["$stateProvider", "$urlRouterProvider"];
+    this.config(loadRoutes);
 
     let goToMainStateWithoutSession = (Sessions, $state, $rootScope) => {
       $rootScope.$on('$stateChangeStart', (event, toState, toParams, fromState, fromParams) => {
@@ -48,8 +57,6 @@ export class App extends Module {
     };
 
     goToMainStateWithoutSession.$inject = ["mcs-stellard.Sessions", "$state", "$rootScope"];
-
-    this.config(loadRoutes);
     this.run(goToMainStateWithoutSession);
 
     this._loadFunctions();

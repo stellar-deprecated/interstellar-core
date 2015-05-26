@@ -19,11 +19,15 @@ The `mcs-core` module provides the lowest level functionality within the modular
 * [`Intent`](#intent-class)
 
 #### Services
-* [`mcs-core.Config`](#mcs-coreconfig-service)
 * [`mcs-core.IntentBroadcast`](#mcs-coreintentbroadcast-service)
+* [`mcs-core.Config`](#mcs-coreconfig-service)
 
 #### Widgets
 None.
+
+#### Others
+* [`kelp`](https://github.com/stellar/kelp)
+* [`kelp-theme-sdf`](https://github.com/stellar/kelp-theme-sdf)
 
 ## `Module` class
 
@@ -45,7 +49,7 @@ mod.define();
 
 ## `App` class
 
-`App` class extends `Module` class and provides helper methods for final MCS application that use other modules. It provides additional functionality like `ui-router`.
+`App` class extends `Module` class and provides helper methods for the final MCS application that use other modules. It provides additional functionality like `ui-router`. The second parameter in a constructor is [a configuration JSON](mcs-coreconfig-service).
 
 ```js
 import {App, mod as mcsCore} from "mcs-core";
@@ -54,7 +58,8 @@ import {mod as mcsStellard} from "mcs-stellard";
 import {mod as mcsSettings} from "mcs-settings";
 import {mod as mcsStellarApi} from "mcs-stellar-api";
 
-export const app = new App("mcs-stellar-client");
+let config = require('./config.json');
+export const app = new App("mcs-stellar-client", config);
 
 app.use(mcsCore.name);
 app.use(mcsLogin.name);
@@ -117,50 +122,82 @@ IntentBroadcast.registerReceiver(Intent.TYPES.SEND_TRANSACTION, intent => {
 ## `mcs-core.IntentBroadcast` service
 
 `mcs-core.IntentBroadcast` service is responsible for delivering `Intent`s to correct Broadcast Receivers. It has two methods:
-* `sendBroadcast(intent)` - to broadcast and `Intent`,
+* `sendBroadcast(intent)` - to broadcast an `Intent`,
 * `registerReceiver(type, broadcastReceiver)` - to register Broadcast Receiver of specific type.
 
 ## `mcs-core.Config` service
 
-The Config service provides the system through which the client can retrieve configuration flags.  It provides a `get(configName)` to which clients can retrieve values.
+The Config service provides the system through which the client can retrieve configuration flags. It provides a `get(configName)` to which clients can retrieve values.
 
 Conceptually, an application's configuration presents itself as a simple nested json object.
 
+### Defining configuration values
 
-### Retrieving values (using `get`)
+`mcs-core.Config` provider has 2 methods that `App` and `Module`s can use to define configuration values:
+* `addAppConfig(config)` - used by [`App`](#app-class)
+* `addModuleConfig(moduleName, config)` - used by [`Module`](#module-class)s
 
-Once you have an instance of the config service (using normal angular DI mechanisms), you may access any previously loaded configuration using a "slash separated" accessor string. For example, say the configuration data is the json object below:
-
-```javascript
+All config values added by modules are treated as default values that can be overwritten by the `App` config. For example, let's say [`mcs-network`](https://github.com/stellar/mcs-network) module adds following config JSON using `addModuleConfig`:
+```json
 {
-  "stellard": {
-    "connections": {
-      "prd": "live.stellar.org",
-      "stg": "test.stellar.org"
+  "horizon": {
+    "secure": true,
+    "hostname": "horizon-testnet.stellar.org",
+    "port": 443
+  }
+}
+```
+To overwrite this module's configuration, an app needs to add following config JSON using `addAppConfig`:
+```json
+{
+  "modules": {
+    "mcs-network": {
+      "horizon": {
+        "secure": false,
+        "hostname": "horizon.example.com",
+        "port": 80
+      }
     }
   }
 }
 ```
 
-You can retrieve the address for the production stellard node with `config.get("stellard/connections/prd")`
+### Retrieving values (using `get`)
 
-### Defining configuration values
+Once you have an instance of the config service (using normal angular DI mechanisms), you may access any previously loaded configuration using a "dot separated" accessor string. For example, say the [`App`](#app-class) configuration data is the json object below:
 
-While conceptually the config system presents itself as a nested json object, underneath the covers the configuration system is comprised of a ordered set of configuration layers.  Layers higher in the stack override layers lower in the stack.
+```json
+{
+  "horizon": {
+    "secure": true,
+    "hostname": "horizon-testnet.stellar.org",
+    "port": 443
+  }
+}
+```
 
-Layers are added to the configuration system using `addLayer`. An example layer stack might consist of:
-- "base" (the default config layer MCS will ship with)
-- "app" (a specific apps default configuration)
-- "dev/prd/stg" (enviroment specific configuration)
-- "runtime" (configuration added during runtime)
+You can retrieve the address for the horizon with:
+```js
+let hostname = Config.get("horizon.hostname");
+```
 
-See Config#get in config.unit-test
+Getting configuration values in [`Module`](#module-class) is a little different. During configuration phase all modules' configurations are appended to `modules` object in the main config JSON. For example, let's say [`mcs-network`](https://github.com/stellar/mcs-network) module adds following configuration:
+```json
+{
+  "horizon": {
+    "secure": true,
+    "hostname": "horizon-testnet.stellar.org",
+    "port": 443
+  }
+}
+```
 
+Now, you can retrieve the address for the horizon with:
+```js
+let hostname = Config.get("modules.mcs-network.horizon.hostname");
+```
 
 ### Typed accessors (`getString`, `getArray`, `getObject`, `getNumber`, `getBoolean`)
 
-In the spirit of failing fast, consumers of the config service can apply type restrictions to config variables, such that an exception will be thrown at the point of retrieval if the result is of the wrong type.  For example, given a config object of `{"foo": "bar"}`, executing the statement `config.getNumber("foo")` will throw an exception because the result ("bar") is a string.
+In the spirit of failing fast, consumers of the config service can apply type restrictions to config variables, such that an exception will be thrown at the point of retrieval if the result is of the wrong type.  For example, given a config object of `{"foo": "bar"}`, executing the statement `Config.getNumber("foo")` will throw an exception because the result ("bar") is a string.
 
-### Getting all overlayed values using `getLayers()`
-
-### relative configuration objects using `getNamespace()`
