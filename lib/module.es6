@@ -11,7 +11,13 @@ export class Module {
   }
 
   use(module) {
-    this.uses.push(module);
+    if (_.isString(module)) {
+      this.uses.push(module);
+    } else if (_.isObject(module) && _.isString(module.name)) {
+      this.uses.push(module.name);
+    } else {
+      throw new Error('Invalid module name/object.');
+    }
   }
 
   define() {

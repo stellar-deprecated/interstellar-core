@@ -49,7 +49,7 @@ mod.define();
 
 ## `App` class
 
-`App` class extends `Module` class and provides helper methods for the final MCS application that use other modules. It provides additional functionality like `ui-router`. The second parameter in a constructor is [a configuration JSON](mcs-coreconfig-service).
+`App` class extends `Module` class and provides helper methods for the final MCS application that use other modules. It provides additional functionality like `ui-router`. The second parameter in a constructor is [a configuration JSON](#mcs-coreconfig-service).
 
 ```js
 import {App, mod as mcsCore} from "mcs-core";

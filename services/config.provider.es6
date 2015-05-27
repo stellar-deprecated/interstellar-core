@@ -17,6 +17,10 @@ class ConfigProvider {
 
   $get() {
     let config = cloneDeep(this.appConfig);
+    if (!config.modules) {
+      config.modules = {};
+    }
+
     for (let module in this.modulesConfig) {
       if (!config.modules[module]) {
         config.modules[module] = this.modulesConfig[module];
