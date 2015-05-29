@@ -1,5 +1,5 @@
 import {Config} from "../lib/config";
-import {cloneDeep, extend} from 'lodash';
+import {cloneDeep, concat, merge, isArray} from 'lodash';
 
 class ConfigProvider {
   constructor() {
@@ -25,7 +25,11 @@ class ConfigProvider {
       if (!config.modules[module]) {
         config.modules[module] = this.modulesConfig[module];
       } else {
-        extend(config.modules[module], this.modulesConfig[module]);
+        merge(
+          config.modules[module],
+          this.modulesConfig[module],
+          (a, b) => isArray(a) ? concat(b) : undefined
+        );
       }
     }
     return new Config(config);

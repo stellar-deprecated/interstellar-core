@@ -16,6 +16,7 @@ The `mcs-core` module provides the lowest level functionality within the modular
 #### Classes
 * [`Module`](#module-class)
 * [`App`](#app-class)
+* [`Inject` decorator](#inject-decorator)
 * [`Intent`](#intent-class)
 
 #### Services
@@ -90,6 +91,22 @@ app.config(configureServices);
 app.run(registerBroadcastReceivers);
 
 app.bootstrap();
+```
+
+## `Inject` decorator
+
+[Decorator](https://github.com/wycats/javascript-decorators) class to inject dependencies to your controllers or services using AngularJS injector subsystem:
+
+```js
+import {Inject} from 'mcs-core';
+
+@Inject("mcs-stellard.Sessions", "mcs-stellard.Server")
+class ReceiveWidgetController {
+  constructor(Sessions, Server) {
+    this.Server = Server;
+    this.Sessions = Sessions;
+  }
+}
 ```
 
 ## `Intent` class

@@ -1,5 +1,5 @@
 import {pick} from 'dot-object';
-import { InvalidConfigTypeError } from "../errors";
+import {InvalidConfigTypeError} from "../errors";
 
 export class Config {
   constructor(config) {
