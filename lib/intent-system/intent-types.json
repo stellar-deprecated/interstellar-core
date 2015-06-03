@@ -1,5 +1,5 @@
 {
-  "SEND_TRANSACTION": "mcs:send-transaction",
-  "SHOW_DASHBOARD": "mcs:show-dashboard",
-  "LOGOUT": "mcs:logout"
+  "SEND_TRANSACTION": "interstellar:send-transaction",
+  "SHOW_DASHBOARD": "interstellar:show-dashboard",
+  "LOGOUT": "interstellar:logout"
 }

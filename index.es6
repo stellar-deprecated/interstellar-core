@@ -6,7 +6,7 @@ export {Inject} from "./lib/decorators/inject.es6";
 
 const {Module} = require('./lib/module');
 
-const mod = new Module('mcs-core');
+const mod = new Module('interstellar-core');
 export default mod;
 
 mod.services   = require.context("./services", true);

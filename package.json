@@ -1,11 +1,11 @@
 {
-  "name": "mcs-core",
+  "name": "interstellar-core",
   "version": "0.0.1",
   "private": true,
-  "description": "The core modules provides the lowest level functionality within the modular client system.",
+  "description": "The core modules provides the lowest level functionality within the Interstellar Module System.",
   "keywords": [
     "stellar",
-    "mcs"
+    "interstellar"
   ],
   "scripts": {
     "test": "gulp test"
@@ -14,7 +14,7 @@
   "license": "Apache-2.0",
   "repository": {
     "type": "git",
-    "url": "http://github.com/stellar/mcs-core.git"
+    "url": "http://github.com/stellar/interstellar-core.git"
   },
   "dependencies": {
     "angular": "^1.3.5",

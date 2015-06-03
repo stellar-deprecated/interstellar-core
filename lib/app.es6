@@ -36,7 +36,7 @@ export class App extends Module {
       ConfigProvider.addAppConfig(this.configObject);
     };
 
-    loadConfig.$inject = ["mcs-core.ConfigProvider"];
+    loadConfig.$inject = ["interstellar-core.ConfigProvider"];
     this.config(loadConfig);
 
     let loadRoutes = ($stateProvider, $urlRouterProvider) => {
@@ -57,7 +57,7 @@ export class App extends Module {
         WidgetResolutionService.addResolver(resolver);
       };
 
-      loadResolver.$inject = [resolver, "mcs-core.WidgetResolutionService"];
+      loadResolver.$inject = [resolver, "interstellar-core.WidgetResolutionService"];
       amod.run(loadResolver);
     });
   }

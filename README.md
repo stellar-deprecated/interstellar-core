@@ -1,15 +1,16 @@
-`mcs-core`
+`interstellar-core`
 =============
 
-The `mcs-core` is part of the Modular Client System.
+The `interstellar-core` is part of the Interstellar Module System.
 
-> Quick start to developing in the MCS eco-system:
+> Quick start to developing in the Interstellar eco-system:
 >
-> * Install [`mcs-workspace`](https://github.com/stellar/mcs-workspace).
+> * Read [`Getting started`](https://github.com/stellar/interstellar/tree/master/docs) doc.
+> * Install [`interstellar-workspace`](https://github.com/stellar/interstellar-workspace).
 > * Read the technical overview of the system.
 > * Contribute to our open-source modules or develop your own.
 
-The `mcs-core` module provides the lowest level functionality within the modular client system.
+The `interstellar-core` module provides the lowest level functionality within the Interstellar Module System.
 
 ## Module contents
 
@@ -20,8 +21,8 @@ The `mcs-core` module provides the lowest level functionality within the modular
 * [`Intent`](#intent-class)
 
 #### Services
-* [`mcs-core.IntentBroadcast`](#mcs-coreintentbroadcast-service)
-* [`mcs-core.Config`](#mcs-coreconfig-service)
+* [`interstellar-core.IntentBroadcast`](#interstellar-coreintentbroadcast-service)
+* [`interstellar-core.Config`](#interstellar-coreconfig-service)
 
 #### Widgets
 None.
@@ -32,13 +33,13 @@ None.
 
 ## `Module` class
 
-Module is a wrapper around [Angular.js module](https://docs.angularjs.org/guide/module). Every MCS module is a `Module` object and Angular.js module. `Module` provides several methods to help configure a module. It also provides autoloading support for controllers, templates, services, directives and other components.
+Module is a wrapper around [Angular.js module](https://docs.angularjs.org/guide/module). Every Interstellar module is a `Module` object and Angular.js module. `Module` provides several methods to help configure a module. It also provides autoloading support for controllers, templates, services, directives and other components.
 
 ```js
-import {Module} from "mcs-core";
+import {Module} from "interstellar-core";
 
-export const mod = new Module('mcs-example');
-mod.use(mcsSomeModule.name);
+export const mod = new Module('interstellar-example');
+mod.use(interstellarSomeModule.name);
 
 mod.controllers = require.context("./controllers", true);
 mod.directives  = require.context("./directives", true);
@@ -50,23 +51,23 @@ mod.define();
 
 ## `App` class
 
-`App` class extends `Module` class and provides helper methods for the final MCS application that use other modules. It provides additional functionality like `ui-router`. The second parameter in a constructor is [a configuration JSON](#mcs-coreconfig-service).
+`App` class extends `Module` class and provides helper methods for the final Interstellar application that use other modules. It provides additional functionality like `ui-router`. The second parameter in a constructor is [a configuration JSON](#interstellar-coreconfig-service).
 
 ```js
-import {App, mod as mcsCore} from "mcs-core";
-import {mod as mcsLogin} from "mcs-login";
-import {mod as mcsStellard} from "mcs-stellard";
-import {mod as mcsSettings} from "mcs-settings";
-import {mod as mcsStellarApi} from "mcs-stellar-api";
+import {App, mod as interstellarCore} from "interstellar-core";
+import {mod as interstellarStellarWallet} from "interstellar-stellar-wallet";
+import {mod as interstellarNetwork} from "interstellar-network";
+import {mod as interstellarSettings} from "interstellar-settings";
+import {mod as interstellarStellarApi} from "interstellar-stellar-api";
 
 let config = require('./config.json');
-export const app = new App("mcs-stellar-client", config);
+export const app = new App("interstellar-stellar-client", config);
 
-app.use(mcsCore.name);
-app.use(mcsLogin.name);
-app.use(mcsStellard.name);
-app.use(mcsSettings.name);
-app.use(mcsStellarApi.name);
+app.use(interstellarCore.name);
+app.use(interstellarStellarWallet.name);
+app.use(interstellarNetwork.name);
+app.use(interstellarSettings.name);
+app.use(interstellarStellarApi.name);
 
 app.templates   = require.context("raw!./templates", true);
 app.controllers = require.context("./controllers",   true);
@@ -74,11 +75,11 @@ app.controllers = require.context("./controllers",   true);
 app.routes = ($stateProvider) => {
   $stateProvider.state('login', {
     url: "/login",
-    templateUrl: "mcs-stellar-client/login"
+    templateUrl: "interstellar-stellar-client/login"
   });
   $stateProvider.state('dashboard', {
     url: "/dashboard",
-    templateUrl: "mcs-stellar-client/dashboard",
+    templateUrl: "interstellar-stellar-client/dashboard",
     requireSession: true
   });
   // ...
@@ -98,9 +99,9 @@ app.bootstrap();
 [Decorator](https://github.com/wycats/javascript-decorators) class to inject dependencies to your controllers or services using AngularJS injector subsystem:
 
 ```js
-import {Inject} from 'mcs-core';
+import {Inject} from 'interstellar-core';
 
-@Inject("mcs-stellard.Sessions", "mcs-stellard.Server")
+@Inject("interstellar-sessions.Sessions", "interstellar-network.Server")
 class ReceiveWidgetController {
   constructor(Sessions, Server) {
     this.Server = Server;
@@ -111,7 +112,7 @@ class ReceiveWidgetController {
 
 ## `Intent` class
 
-Modules in MCS communicate by broadcasting `Intent` objects using [Android-inspired](http://developer.android.com/guide/components/intents-filters.html) intent system. Modules can:
+Modules in Interstellar communicate by broadcasting `Intent` objects using [Android-inspired](http://developer.android.com/guide/components/intents-filters.html) intent system. Modules can:
 * **Broadcast Intents** to trigger some events in other modules,
 * **Register Broadcast Receivers** to listen to Intents sent by other modules.
 
@@ -136,13 +137,13 @@ IntentBroadcast.registerReceiver(Intent.TYPES.SEND_TRANSACTION, intent => {
 });
 ```
 
-## `mcs-core.IntentBroadcast` service
+## `interstellar-core.IntentBroadcast` service
 
-`mcs-core.IntentBroadcast` service is responsible for delivering `Intent`s to correct Broadcast Receivers. It has two methods:
+`interstellar-core.IntentBroadcast` service is responsible for delivering `Intent`s to correct Broadcast Receivers. It has two methods:
 * `sendBroadcast(intent)` - to broadcast an `Intent`,
 * `registerReceiver(type, broadcastReceiver)` - to register Broadcast Receiver of specific type.
 
-## `mcs-core.Config` service
+## `interstellar-core.Config` service
 
 The Config service provides the system through which the client can retrieve configuration flags. It provides a `get(configName)` to which clients can retrieve values.
 
@@ -150,11 +151,11 @@ Conceptually, an application's configuration presents itself as a simple nested 
 
 ### Defining configuration values
 
-`mcs-core.Config` provider has 2 methods that `App` and `Module`s can use to define configuration values:
+`interstellar-core.Config` provider has 2 methods that `App` and `Module`s can use to define configuration values:
 * `addAppConfig(config)` - used by [`App`](#app-class)
 * `addModuleConfig(moduleName, config)` - used by [`Module`](#module-class)s
 
-All config values added by modules are treated as default values that can be overwritten by the `App` config. For example, let's say [`mcs-network`](https://github.com/stellar/mcs-network) module adds following config JSON using `addModuleConfig`:
+All config values added by modules are treated as default values that can be overwritten by the `App` config. For example, let's say [`interstellar-network`](https://github.com/stellar/interstellar-network) module adds following config JSON using `addModuleConfig`:
 ```json
 {
   "horizon": {
@@ -168,7 +169,7 @@ To overwrite this module's configuration, an app needs to add following config J
 ```json
 {
   "modules": {
-    "mcs-network": {
+    "interstellar-network": {
       "horizon": {
         "secure": false,
         "hostname": "horizon.example.com",
@@ -198,7 +199,7 @@ You can retrieve the address for the horizon with:
 let hostname = Config.get("horizon.hostname");
 ```
 
-Getting configuration values in [`Module`](#module-class) is a little different. During configuration phase all modules' configurations are appended to `modules` object in the main config JSON. For example, let's say [`mcs-network`](https://github.com/stellar/mcs-network) module adds following configuration:
+Getting configuration values in [`Module`](#module-class) is a little different. During configuration phase all modules' configurations are appended to `modules` object in the main config JSON. For example, let's say [`interstellar-network`](https://github.com/stellar/interstellar-network) module adds following configuration:
 ```json
 {
   "horizon": {
@@ -211,7 +212,7 @@ Getting configuration values in [`Module`](#module-class) is a little different.
 
 Now, you can retrieve the address for the horizon with:
 ```js
-let hostname = Config.get("modules.mcs-network.horizon.hostname");
+let hostname = Config.get("modules.interstellar-network.horizon.hostname");
 ```
 
 ### Typed accessors (`getString`, `getArray`, `getObject`, `getNumber`, `getBoolean`)
