@@ -28,8 +28,8 @@ The `interstellar-core` module provides the lowest level functionality within th
 None.
 
 #### Others
-* [`kelp`](https://github.com/stellar/kelp)
-* [`kelp-theme-sdf`](https://github.com/stellar/kelp-theme-sdf)
+* [`solar`](https://github.com/stellar/solar)
+* [`solar-stellarorg`](https://github.com/stellar/solar-stellarorg)
 
 ## `Module` class
 
