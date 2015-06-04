@@ -1,16 +1,15 @@
 `interstellar-core`
 =============
 
-The `interstellar-core` is part of the Interstellar Module System.
+The `interstellar-core` module is part of the [Interstellar Module System](https://github.com/stellar/interstellar).
+
+The `interstellar-core` module provides the lowest level functionality: a wrapper around the Angular.js module. 
 
 > Quick start to developing in the Interstellar eco-system:
 >
 > * Read [`Getting started`](https://github.com/stellar/interstellar/tree/master/docs) doc.
 > * Install [`interstellar-workspace`](https://github.com/stellar/interstellar-workspace).
-> * Read the technical overview of the system.
-> * Contribute to our open-source modules or develop your own.
-
-The `interstellar-core` module provides the lowest level functionality within the Interstellar Module System.
+> * Contribute to our [open-source modules](https://github.com/stellar/interstellar/blob/master/docs/module-list.md) or develop your own.
 
 ## Module contents
 
