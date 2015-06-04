@@ -3,7 +3,7 @@
 
 The `interstellar-core` module is part of the [Interstellar Module System](https://github.com/stellar/interstellar).
 
-The `interstellar-core` module provides the lowest level functionality: a wrapper around the Angular.js module. 
+It provides the lowest level functionality: a core JS wrapper. 
 
 > Quick start to developing in the Interstellar eco-system:
 >
