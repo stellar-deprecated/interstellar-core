@@ -20,7 +20,7 @@
     "angular-mocks": "^1.3.8",
     "angular-ui-router": "^0.2.13",
     "dot-object": "^0.11.0",
-    "solar": "git+https://github.com/stellar/solar#master",
+    "solar-css": "git+https://github.com/stellar/solar#master",
     "solar-stellarorg": "git+https://github.com/stellar/solar-stellarorg#master",
     "lodash": "^2.4.1"
   }
