@@ -1,8 +1,10 @@
 import * as _ from "lodash";
 import {Config} from "../lib/config.es6";
+import {Service} from "../lib/annotations/service";
 const intentTypes = require('../lib/intent-system/intent-types.json');
 
-class IntentBroadcastService {
+@Service('IntentBroadcast')
+export default class IntentBroadcastService {
   constructor() {
     this.receivers = {};
   }
@@ -26,7 +28,3 @@ class IntentBroadcastService {
     );
   }
 }
-
-module.exports = function(mod) {
-  mod.service("IntentBroadcast", IntentBroadcastService);
-};

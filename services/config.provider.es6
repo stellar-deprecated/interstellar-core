@@ -1,7 +1,9 @@
 import {Config} from "../lib/config";
 import {cloneDeep, concat, merge, isArray} from 'lodash';
+import {Provider} from "../lib/annotations/provider";
 
-class ConfigProvider {
+@Provider("Config")
+export default class ConfigProvider {
   constructor() {
     this.appConfig = {};
     this.modulesConfig = {};
@@ -35,7 +37,3 @@ class ConfigProvider {
     return new Config(config);
   }
 }
-
-module.exports = function(mod) {
-  mod.provider("Config", ConfigProvider);
-};

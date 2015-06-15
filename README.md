@@ -16,7 +16,11 @@ It provides the lowest level functionality: a core JS wrapper.
 #### Classes
 * [`Module`](#module-class)
 * [`App`](#app-class)
-* [`Inject` decorator](#inject-decorator)
+* [`Inject` annotation](#inject-annotation)
+* [`Controller` annotation](#controller-annotation)
+* [`Provider` annotation](#provider-annotation)
+* [`Service` annotation](#service-annotation)
+* [`Widget` annotation](#widget-annotation)
 * [`Intent`](#intent-class)
 
 #### Services
@@ -93,7 +97,7 @@ app.run(registerBroadcastReceivers);
 app.bootstrap();
 ```
 
-## `Inject` decorator
+## `Inject` annotation
 
 [Decorator](https://github.com/wycats/javascript-decorators) class to inject dependencies to your controllers or services using AngularJS injector subsystem:
 
@@ -108,6 +112,91 @@ class ReceiveWidgetController {
   }
 }
 ```
+
+## `Controller` annotation
+
+[Decorator](https://github.com/wycats/javascript-decorators) class to annotate your controllers.
+
+```js
+import {Controller, Inject} from 'interstellar-core';
+
+@Controller("HeaderController")
+@Inject("interstellar-sessions.Sessions", "interstellar-network.Server")
+export default class HeaderController {
+  constructor(Sessions, Server) {
+    this.Server = Server;
+    this.Sessions = Sessions;
+  }
+  // ...
+}
+```
+
+> **Heads up!** Annotated class _must_ be exported as `default`.
+
+## `Provider` annotation
+
+[Decorator](https://github.com/wycats/javascript-decorators) class to annotate your providers.
+
+```js
+import {Provider} from 'interstellar-core';
+
+@Provider("Config")
+export default class ConfigProvider {
+  constructor() {
+    this.appConfig = {};
+    this.modulesConfig = {};
+  }
+  // ...
+}
+```
+
+> **Heads up!** Annotated class _must_ be exported as `default`.
+
+## `Service` annotation
+
+[Decorator](https://github.com/wycats/javascript-decorators) class to annotate your services.
+
+```js
+import {Service} from 'interstellar-core';
+
+@Service('IntentBroadcast')
+export default class IntentBroadcastService {
+  constructor() {
+    this.receivers = {};
+  }
+  // ...
+}
+```
+
+> **Heads up!** Annotated class _must_ be exported as `default`.
+
+## `Widget` annotation
+
+[Decorator](https://github.com/wycats/javascript-decorators) class to annotate your widgets' controllers.
+
+This annotation requires 3 arguments:
+* directive name,
+* controller name,
+* template name.
+
+```js
+import {Widget, Inject} from 'interstellar-core';
+
+@Widget("balance", "BalanceWidgetController", "interstellar-network-widgets/balance-widget")
+@Inject("$scope", "interstellar-sessions.Sessions", "interstellar-network.AccountObservable", "interstellar-network.Server")
+export default class BalanceWidgetController {
+  constructor($scope, Sessions, AccountObservable, Server) {
+    if (!Sessions.hasDefault()) {
+      console.error('No session. This widget should be used with active session.');
+      return;
+    }
+    // ...
+  }
+  // ...
+}
+```
+
+> **Heads up!** Annotated class _must_ be exported as `default`.
 
 ## `Intent` class
 

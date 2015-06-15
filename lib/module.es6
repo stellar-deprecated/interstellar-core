@@ -78,14 +78,19 @@ export class Module {
 
   _loadAngularArtifacts(amod, ctx) {
     let artifacts = this._uniqueRequireAll(ctx);
-    artifacts.forEach(([_, fn]) => fn(amod));
+    artifacts.forEach(([_, fn]) => {
+      if (fn.registerArtifact) {
+        return fn.registerArtifact(amod);
+      }
+      return fn(amod);
+    });
   }
 
   _uniqueRequireAll(ctx) {
     if(!ctx) { return []; }
 
     // The following pipeline takes a webpack context,
-    // extracts the keys (of which each individual js file has multuiple)
+    // extracts the keys (of which each individual js file has multiple)
     // loads the modules behind those keys and then returns a unique list
     // of loaded modules.
     //

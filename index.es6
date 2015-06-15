@@ -1,8 +1,13 @@
-export {App}    from "./lib/app.es6";
-export {Module} from "./lib/module.es6";
-export {Config} from "./lib/config.es6";
-export {Intent} from "./lib/intent-system/intent.es6";
-export {Inject} from "./lib/decorators/inject.es6";
+export {App}    from "./lib/app";
+export {Module} from "./lib/module";
+export {Config} from "./lib/config";
+export {Intent} from "./lib/intent-system/intent";
+
+export {Inject}     from "./lib/annotations/inject";
+export {Controller} from "./lib/annotations/controller";
+export {Service}    from "./lib/annotations/service";
+export {Provider}   from "./lib/annotations/provider";
+export {Widget}     from "./lib/annotations/widget"
 
 const {Module} = require('./lib/module');
 
