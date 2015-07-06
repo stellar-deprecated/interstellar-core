@@ -7,18 +7,22 @@ const intentTypes = require('../lib/intent-system/intent-types.json');
 export default class IntentBroadcastService {
   constructor() {
     this.receivers = {};
+    _.forEach(intentTypes, intentType => {
+      this.receivers[intentType] = [];
+    });
   }
 
   registerReceiver(intentType, broadcastReceiver) {
     if (!_.contains(intentTypes, intentType)) {
       throw new Error('Unknown intent type.');
     }
-
-    if (!this.receivers[intentType]) {
-      this.receivers[intentType] = [];
-    }
-
     this.receivers[intentType].push(broadcastReceiver);
+  }
+
+  registerGlobalReceiver(broadcastReceiver) {
+    _.forEach(intentTypes, intentType => {
+      this.receivers[intentType].push(broadcastReceiver);
+    });
   }
 
   sendBroadcast(intent) {
