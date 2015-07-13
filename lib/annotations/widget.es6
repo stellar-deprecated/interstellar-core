@@ -1,4 +1,6 @@
-export function Widget(directiveName, controllerName, templateName) {
+import {extend} from 'lodash';
+
+export function Widget(directiveName, controllerName, templateName, directiveOpts = {}) {
   if (!directiveName) {
     throw new Error('Widget directive name is empty.');
   }
@@ -20,11 +22,10 @@ export function Widget(directiveName, controllerName, templateName) {
       mod.controller(controllerName, target);
 
       let directive = function () {
-        return {
+        return extend(directiveOpts, {
           restrict: "E",
-          transclude: true,
           templateUrl: templateName
-        }
+        });
       };
       mod.directive(directiveName, directive);
     }
