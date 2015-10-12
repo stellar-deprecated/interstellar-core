@@ -24,12 +24,13 @@ export default class ConfigProvider {
     }
 
     for (let module in this.modulesConfig) {
-      if (!config.modules[module]) {
-        config.modules[module] = this.modulesConfig[module];
-      } else {
+      config.modules[module] = this.modulesConfig[module];
+
+      // App overwrites
+      if (this.appConfig.modules && this.appConfig.modules[module]) {
         merge(
           config.modules[module],
-          this.modulesConfig[module],
+          this.appConfig.modules[module],
           (a, b) => isArray(a) ? concat(b) : undefined
         );
       }
